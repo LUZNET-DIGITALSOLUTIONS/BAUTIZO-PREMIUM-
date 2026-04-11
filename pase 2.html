@@ -686,7 +686,7 @@ hr {
   overflow: hidden;
 }
 
-.hijo7,.hijo3,.hijo4,.hijo5,.hijo6{
+.hijo7,.hijo3,.hijo4,.hijo5,.hijo6,.hijo8{
     background-image: url("https://i.ibb.co/tMnWkMg1/IMG-20260306-WA0001.jpg");
     
     border: 1px solid #FFD700; 
@@ -698,6 +698,33 @@ hr {
     border-radius: 1%;
   
   object-fit: cover; 
+}
+
+
+.hijo8 {
+  
+}
+
+/* Capa de píxeles encima */
+.overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  z-index: 10;
+}
+
+.pixel {
+  background: black; /* dorado ceremonial */
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.pixel.hide {
+  opacity: 0;
 }
   </style>
 
@@ -845,14 +872,22 @@ De las distintas actividades del evento"></p>
 </div>
       
       </div>
+      
+      
+      
+      <div class="hijo hijo8" id="hijo8">
+  <h1>Confirmacion de asistencia</h1>
+  <iframe  src="https://docs.google.com/forms/d/e/1FAIpQLSc6GbUSxu8mot_eFIcBaNQuCxNwEvqiJHvesoOkom3RtBm__g/viewform?usp=publish-editor"
+          width="285" height="400"
+          frameborder="0" marginheight="0" marginwidth="0">
+    Cargando…
+  </iframe>
+</div>
       <div class="hijo hijo5">
-  <h1 class="zoom">Qr pase de entrada</h1>
-  <img class="zoom" src="https://i.ibb.co/zWHNW3dG/qr2.jpg
+      <h1 class="zoom">Qr pase de entrada</h1>
+      <img class="zoom" src="https://i.ibb.co/LXjZTWZx/qr2.jpg
   " alt="pase-2">
-  <p class="zoom">Por favor confirma tu asistencia <br /> antes de la fecha.</p>
-  <div class="gps zoom">
-    <a href="https://wa.me/523312281872?text=Hola,%20confirmo%20mi%20asistencia%20al%20evento." class="btn">Confirmar</a>
-  </div>
+  
 </div>
       
        <div class="hijo hijo7" id="hijo7">
@@ -1231,6 +1266,46 @@ function prepararMatrixTexto(elementId) {
     spans.forEach(span => span.classList.remove('colorCycle'));
   }, tiempoTotal + 10000); // 10 segundos de olas
 }
+
+
+//div 8
+
+// Observer para hijo8
+const observerHijo8 = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Crear capa de píxeles encima
+      const overlay = document.createElement("div");
+      overlay.classList.add("overlay");
+      entry.target.appendChild(overlay);
+
+      // Generar 50 píxeles
+      for (let i = 0; i < 200; i++) {
+        const div = document.createElement("div");
+        div.classList.add("pixel");
+        overlay.appendChild(div);
+      }
+
+      // Animar desaparición aleatoria (revelando el contenido)
+      const pixels = overlay.querySelectorAll(".pixel");
+      pixels.forEach(pixel => {
+        const delay = Math.random() * 2000; // entre 0 y 2 segundos
+        setTimeout(() => {
+          pixel.classList.add("hide");
+        }, delay);
+      });
+
+      // Al final, quitar la capa para liberar el contenido
+      setTimeout(() => {
+        overlay.remove();
+      }, 2500);
+    }
+  });
+});
+
+// Observar el div hijo8
+const hijo8 = document.getElementById("hijo8");
+observerHijo8.observe(hijo8);
 
   </script>
 </body>
